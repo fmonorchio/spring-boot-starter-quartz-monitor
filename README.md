@@ -1,1 +1,3 @@
-# spring-boot-starter-quartz-monitor
+# Spring Boot Starter: Quartz Monitor
+
+ Admin UI for administration of Quartz Jobs 

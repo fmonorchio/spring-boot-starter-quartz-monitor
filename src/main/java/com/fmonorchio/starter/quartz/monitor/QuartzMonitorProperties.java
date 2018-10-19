@@ -7,6 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("spring.quartz.monitor")
 public class QuartzMonitorProperties {
 
-	Boolean enabled;
+    private boolean enabled;
 
 }

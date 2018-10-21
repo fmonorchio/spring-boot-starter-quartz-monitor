@@ -1,15 +1,15 @@
 package com.fmonorchio.starter.quartz.monitor.service
 
-import com.fmonorchio.starter.quartz.monitor.model.JobInfo
+import com.fmonorchio.starter.quartz.monitor.model.JobData
 import org.quartz.JobKey
 
 interface QuartzMonitorService {
 
-    List<JobInfo> getJobDetails()
-    List<JobInfo> getJobDetailsByGroup(String group)
+    List<JobData> getJobDetails()
+    List<JobData> getJobDetailsByGroup(String group)
     List<String> getJobGroups();
 
-    JobInfo getJobDetail(JobKey key)
+    JobData getJobDetail(JobKey key)
 
     void deleteJob(JobKey key)
 

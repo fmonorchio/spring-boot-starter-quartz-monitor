@@ -1,6 +1,8 @@
 package com.fmonorchio.starter.quartz.monitor
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fmonorchio.starter.quartz.monitor.util.json.DateSerializer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -9,9 +11,6 @@ import org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
-
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
-import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
 
 @Configuration
 @AutoConfigureAfter([
@@ -30,8 +29,10 @@ class QuartzMonitorAutoConfiguration {
     @SuppressWarnings('GrMethodMayBeStatic')
     void configure(ObjectMapper mapper) {
 
-        mapper.configure(FAIL_ON_EMPTY_BEANS, false)
-        mapper.setSerializationInclusion(NON_NULL)
+        def module = new SimpleModule()
+        module.addSerializer(Date, new DateSerializer())
+
+        mapper.registerModule(module)
     }
 
 }

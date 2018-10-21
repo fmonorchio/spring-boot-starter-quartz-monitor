@@ -1,6 +1,6 @@
 package com.fmonorchio.starter.quartz.monitor.controller
 
-import com.fmonorchio.starter.quartz.monitor.model.JobInfo
+import com.fmonorchio.starter.quartz.monitor.model.JobData
 import com.fmonorchio.starter.quartz.monitor.service.QuartzMonitorService
 import org.quartz.JobKey
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,7 +18,7 @@ class QuartzMonitorController {
     QuartzMonitorService quartzMonitorService
 
     @GetMapping('quartz/scheduled-jobs')
-    ResponseEntity<List<JobInfo>> getJobDetails(@RequestParam(required = false) String group) {
+    ResponseEntity<List<JobData>> getJobDetails(@RequestParam(required = false) String group) {
 
         if (group) {
             return ok(quartzMonitorService.getJobDetailsByGroup(group))
@@ -33,7 +33,7 @@ class QuartzMonitorController {
     }
 
     @GetMapping('quartz/scheduled-jobs/{key}')
-    ResponseEntity<JobInfo> getQuartzJob(@PathVariable JobKey key) {
+    ResponseEntity<JobData> getQuartzJob(@PathVariable JobKey key) {
 
         ok(quartzMonitorService.getJobDetail(key))
     }

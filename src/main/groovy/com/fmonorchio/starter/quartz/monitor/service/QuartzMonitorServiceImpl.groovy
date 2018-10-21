@@ -1,11 +1,9 @@
 package com.fmonorchio.starter.quartz.monitor.service
 
-import com.fmonorchio.starter.quartz.monitor.InfoAggregator
-import com.fmonorchio.starter.quartz.monitor.model.JobInfo
-import org.quartz.JobDetail
+import com.fmonorchio.starter.quartz.monitor.util.InfoAggregator
+import com.fmonorchio.starter.quartz.monitor.model.JobData
 import org.quartz.JobKey
 import org.quartz.Scheduler
-import org.quartz.Trigger
 import org.quartz.impl.matchers.GroupMatcher
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -20,7 +18,7 @@ class QuartzMonitorServiceImpl implements QuartzMonitorService {
     InfoAggregator aggregator
 
     @Override
-    List<JobInfo> getJobDetails() {
+    List<JobData> getJobDetails() {
 
         def matcher = GroupMatcher.anyJobGroup()
         scheduler.getJobKeys(matcher).collect { key ->
@@ -29,7 +27,7 @@ class QuartzMonitorServiceImpl implements QuartzMonitorService {
     }
 
     @Override
-    List<JobInfo> getJobDetailsByGroup(String group) {
+    List<JobData> getJobDetailsByGroup(String group) {
 
         def matcher = GroupMatcher.jobGroupEquals(group)
         scheduler.getJobKeys(matcher).collect { key ->
@@ -38,7 +36,7 @@ class QuartzMonitorServiceImpl implements QuartzMonitorService {
     }
 
     @Override
-    JobInfo getJobDetail(JobKey key) {
+    JobData getJobDetail(JobKey key) {
         aggregator.aggregateBy(key)
     }
 

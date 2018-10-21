@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.1.0.M4'
+		springBootVersion = '2.1.0.RELEASE'
 		springDependencyManagementVersion = '1.0.6.RELEASE'
 	}
 
@@ -42,8 +42,12 @@ dependencies {
 
 	compile 'org.codehaus.groovy:groovy'
 	compile 'org.springframework.boot:spring-boot-starter'
-	compile 'org.springframework.boot:spring-boot-starter-web'
-	compile 'org.springframework.boot:spring-boot-starter-quartz'
+
+	compile 'org.springframework:spring-context'
+	compile 'org.springframework:spring-web'
+
+	compile 'com.fasterxml.jackson.core:jackson-databind'
+	compile 'org.quartz-scheduler:quartz'
 
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'

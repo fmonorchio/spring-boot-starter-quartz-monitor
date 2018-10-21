@@ -1,26 +1,39 @@
 package com.fmonorchio.starter.quartz.monitor
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fmonorchio.starter.quartz.monitor.controller.QuartzMonitorController
+import com.fmonorchio.starter.quartz.monitor.converter.StringToJobKeyConverter
+import com.fmonorchio.starter.quartz.monitor.service.QuartzMonitorService
+import com.fmonorchio.starter.quartz.monitor.service.QuartzMonitorServiceImpl
+import com.fmonorchio.starter.quartz.monitor.util.InfoAggregator
+import com.fmonorchio.starter.quartz.monitor.util.json.DateSerializer
+import org.quartz.Scheduler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration
 import org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.cache.annotation.EnableCaching
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
-import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
-
+@EnableCaching
 @Configuration
+@ConditionalOnBean([
+        Scheduler,
+        ObjectMapper
+])
 @AutoConfigureAfter([
         QuartzAutoConfiguration,
         JacksonAutoConfiguration
 ])
-@ComponentScan('com.fmonorchio.starter.quartz.monitor')
+@ComponentScan('org.springframework.boot.autoconfigure')
 @EnableConfigurationProperties(QuartzMonitorProperties)
-@ConditionalOnProperty(prefix = 'spring.quartz.monitor', value = 'enabled', havingValue = 'true', matchIfMissing = true)
+@ConditionalOnProperty(value = 'spring.quartz.monitor.enabled', havingValue = 'true', matchIfMissing = true)
 class QuartzMonitorAutoConfiguration {
 
     @Autowired
@@ -30,8 +43,30 @@ class QuartzMonitorAutoConfiguration {
     @SuppressWarnings('GrMethodMayBeStatic')
     void configure(ObjectMapper mapper) {
 
-        mapper.configure(FAIL_ON_EMPTY_BEANS, false)
-        mapper.setSerializationInclusion(NON_NULL)
+        def module = new SimpleModule()
+        module.addSerializer(Date, new DateSerializer())
+
+        mapper.registerModule(module)
+    }
+
+    @Bean
+    StringToJobKeyConverter quartzMonitorStringJobKeyConverter() {
+        return new StringToJobKeyConverter()
+    }
+
+    @Bean
+    InfoAggregator quartzMonitorInfoAggregator() {
+        return new InfoAggregator()
+    }
+
+    @Bean
+    QuartzMonitorService quartzMonitorService() {
+        return new QuartzMonitorServiceImpl()
+    }
+
+    @Bean
+    QuartzMonitorController quartzMonitorController() {
+        return new QuartzMonitorController()
     }
 
 }

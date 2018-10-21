@@ -1,6 +1,6 @@
 package com.fmonorchio.starter.quartz.monitor.controller
 
-import com.fmonorchio.starter.quartz.monitor.model.JobInfo
+import com.fmonorchio.starter.quartz.monitor.model.JobData
 import com.fmonorchio.starter.quartz.monitor.service.QuartzMonitorService
 import org.quartz.JobKey
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,61 +9,67 @@ import org.springframework.web.bind.annotation.*
 
 import static org.springframework.http.ResponseEntity.ok
 
-@RestController
-@RequestMapping
 @SuppressWarnings('unused')
+@RequestMapping('quartz-monitor')
 class QuartzMonitorController {
 
     @Autowired
     QuartzMonitorService quartzMonitorService
 
-    @GetMapping('quartz/scheduled-jobs')
-    ResponseEntity<List<JobInfo>> getJobDetails(@RequestParam(required = false) String group) {
+    @GetMapping('scheduled-jobs')
+    ResponseEntity<List<JobData>> getJobDetails(@RequestParam(required = false) String group) {
 
         if (group) {
-            return ok(quartzMonitorService.getJobDetailsByGroup(group))
+            return ok(quartzMonitorService.getJobDataByGroup(group))
         }
-        ok(quartzMonitorService.getJobDetails())
+        return ok(quartzMonitorService.getJobData())
     }
 
-    @GetMapping('quartz/scheduled-jobs/groups')
+    @GetMapping('scheduled-jobs/groups')
     ResponseEntity<List<String>> getJobGroups() {
 
-        ok(quartzMonitorService.getJobGroups())
+        return ok(quartzMonitorService.getJobGroups())
     }
 
-    @GetMapping('quartz/scheduled-jobs/{key}')
-    ResponseEntity<JobInfo> getQuartzJob(@PathVariable JobKey key) {
+    @GetMapping('scheduled-jobs/{key}')
+    ResponseEntity<JobData> getQuartzJob(@PathVariable JobKey key) {
 
-        ok(quartzMonitorService.getJobDetail(key))
+        return ok(quartzMonitorService.getJobData(key))
     }
 
-    @DeleteMapping('quartz/scheduled-jobs/{key}')
+    @DeleteMapping('scheduled-jobs/{key}')
     ResponseEntity<Boolean> deleteJob(@PathVariable JobKey key) {
 
         quartzMonitorService.deleteJob(key)
-        ok().build()
+        return ok().build()
     }
 
-    @PostMapping('quartz/scheduled-jobs/{key}/trigger')
+    @PostMapping('scheduled-jobs/{key}/trigger')
     ResponseEntity<Void> triggerJob(@PathVariable JobKey key) {
 
         quartzMonitorService.triggerJob(key)
-        ok().build()
+        return ok().build()
     }
 
-    @PostMapping('quartz/scheduled-jobs/{key}/pause')
+    @PostMapping('scheduled-jobs/{key}/pause')
     ResponseEntity<Void> pauseJob(@PathVariable JobKey key) {
 
         quartzMonitorService.pauseJob(key)
-        ok().build()
+        return ok().build()
     }
 
-    @PostMapping('quartz/scheduled-jobs/{key}/interrupt')
+    @PostMapping('scheduled-jobs/{key}/resume')
+    ResponseEntity<Void> resumeJob(@PathVariable JobKey key) {
+
+        quartzMonitorService.resumeJob(key)
+        return ok().build()
+    }
+
+    @PostMapping('scheduled-jobs/{key}/interrupt')
     ResponseEntity<Void> interruptJob(@PathVariable JobKey key) {
 
         quartzMonitorService.interruptJob(key)
-        ok().build()
+        return ok().build()
     }
 
 }

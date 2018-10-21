@@ -1,16 +1,14 @@
 package com.fmonorchio.starter.quartz.monitor.service
 
-import com.fmonorchio.starter.quartz.monitor.InfoAggregator
-import com.fmonorchio.starter.quartz.monitor.model.JobInfo
-import org.quartz.JobDetail
+import com.fmonorchio.starter.quartz.monitor.model.JobData
+import com.fmonorchio.starter.quartz.monitor.util.InfoAggregator
 import org.quartz.JobKey
 import org.quartz.Scheduler
-import org.quartz.Trigger
 import org.quartz.impl.matchers.GroupMatcher
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 
-@Service
 class QuartzMonitorServiceImpl implements QuartzMonitorService {
 
     @Autowired
@@ -20,29 +18,39 @@ class QuartzMonitorServiceImpl implements QuartzMonitorService {
     InfoAggregator aggregator
 
     @Override
-    List<JobInfo> getJobDetails() {
+    @Cacheable('getJobs')
+    List<JobData> getJobData() {
 
         def matcher = GroupMatcher.anyJobGroup()
-        scheduler.getJobKeys(matcher).collect { key ->
+        return scheduler.getJobKeys(matcher).collect { key ->
             aggregator.aggregateBy(key)
         }
     }
 
     @Override
-    List<JobInfo> getJobDetailsByGroup(String group) {
+    @Cacheable(value = 'getJobsByGroup', key = '#group')
+    List<JobData> getJobDataByGroup(String group) {
 
         def matcher = GroupMatcher.jobGroupEquals(group)
-        scheduler.getJobKeys(matcher).collect { key ->
+        return scheduler.getJobKeys(matcher).collect { key ->
             aggregator.aggregateBy(key)
         }
     }
 
     @Override
-    JobInfo getJobDetail(JobKey key) {
-        aggregator.aggregateBy(key)
+    @Cacheable(value = 'getJob', key = '#key')
+    JobData getJobData(JobKey key) {
+        return aggregator.aggregateBy(key)
     }
 
     @Override
+    @Cacheable('getJobGroups')
+    List<String> getJobGroups() {
+        return scheduler.getJobGroupNames()
+    }
+
+    @Override
+    @CacheEvict(['getJobs', 'getJobsByGroup', 'getJob', 'getJobGroups'])
     void deleteJob(JobKey key) {
         scheduler.deleteJob(key)
     }
@@ -58,13 +66,13 @@ class QuartzMonitorServiceImpl implements QuartzMonitorService {
     }
 
     @Override
-    void interruptJob(JobKey key) {
-        scheduler.interrupt(key)
+    void resumeJob(JobKey key) {
+        scheduler.resumeJob(key)
     }
 
     @Override
-    List<String> getJobGroups() {
-        scheduler.getJobGroupNames()
+    void interruptJob(JobKey key) {
+        scheduler.interrupt(key)
     }
 
 }

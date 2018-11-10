@@ -32,7 +32,7 @@ class QuartzMonitorController {
     }
 
     @GetMapping('scheduled-jobs/{key}')
-    ResponseEntity<JobData> getQuartzJob(@PathVariable JobKey key) {
+    ResponseEntity<JobData> getJobData(@PathVariable JobKey key) {
 
         return ok(quartzMonitorService.getJobData(key))
     }

@@ -1,0 +1,204 @@
+{
+	"info": {
+		"name": "QuartzMonitor",
+		"_postman_id": "12aa3a6f-050d-4b95-9c45-fa8e88e73d55",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get job details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{hostname}}:{{port}}/quartz-monitor/scheduled-jobs?group=",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"quartz-monitor",
+						"scheduled-jobs"
+					],
+					"query": [
+						{
+							"key": "group",
+							"value": "",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get job groups",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{hostname}}:{{port}}/quartz-monitor/scheduled-jobs/groups",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"quartz-monitor",
+						"scheduled-jobs",
+						"groups"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get job data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{hostname}}:{{port}}/quartz-monitor/scheduled-jobs/{{groupName}}.{{jobName}}",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"quartz-monitor",
+						"scheduled-jobs",
+						"{{groupName}}.{{jobName}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete job",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{hostname}}:{{port}}/quartz-monitor/scheduled-jobs/{{groupName}}.{{jobName}}",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"quartz-monitor",
+						"scheduled-jobs",
+						"{{groupName}}.{{jobName}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "trigger job",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{hostname}}:{{port}}/quartz-monitor/scheduled-jobs/{{groupName}}.{{jobName}}/trigger",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"quartz-monitor",
+						"scheduled-jobs",
+						"{{groupName}}.{{jobName}}",
+						"trigger"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "pause job",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{hostname}}:{{port}}/quartz-monitor/scheduled-jobs/{{groupName}}.{{jobName}}/pause",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"quartz-monitor",
+						"scheduled-jobs",
+						"{{groupName}}.{{jobName}}",
+						"pause"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "resume job",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{hostname}}:{{port}}/quartz-monitor/scheduled-jobs/{{groupName}}.{{jobName}}/resumeJob",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"quartz-monitor",
+						"scheduled-jobs",
+						"{{groupName}}.{{jobName}}",
+						"resumeJob"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "interrupt job",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{hostname}}:{{port}}/quartz-monitor/scheduled-jobs/{{groupName}}.{{jobName}}/interrupt",
+					"protocol": "http",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"quartz-monitor",
+						"scheduled-jobs",
+						"{{groupName}}.{{jobName}}",
+						"interrupt"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

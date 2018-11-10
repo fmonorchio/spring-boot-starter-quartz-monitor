@@ -1,4 +1,6 @@
-rootProject.name = 'spring-boot-starter-quartz-monitor'
-
 include 'api'
 include 'ui'
+
+rootProject.name = 'spring-boot-starter-quartz-monitor'
+project(':api').name = 'quartz-monitor-api'
+project(':ui').name = 'quartz-monitor-ui'

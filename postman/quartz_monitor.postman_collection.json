@@ -7,13 +7,13 @@
 	},
 	"item": [
 		{
-			"name": "get job details",
+			"name": "get jobs",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://{{hostname}}:{{port}}/quartz-monitor/scheduled-jobs?group=",
+					"raw": "http://{{hostname}}:{{port}}/quartz-monitor/scheduled-jobs?group={{groupName}}",
 					"protocol": "http",
 					"host": [
 						"{{hostname}}"
@@ -26,7 +26,7 @@
 					"query": [
 						{
 							"key": "group",
-							"value": "",
+							"value": "{{groupName}}",
 							"equals": true
 						}
 					]
@@ -36,7 +36,7 @@
 			"response": []
 		},
 		{
-			"name": "get job groups",
+			"name": "get groups",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -59,7 +59,7 @@
 			"response": []
 		},
 		{
-			"name": "get job data",
+			"name": "get job",
 			"request": {
 				"method": "GET",
 				"header": [],

@@ -1,12 +1,13 @@
 package com.fmonorchio.starter.quartz.monitor.controller
 
-import com.fmonorchio.starter.quartz.monitor.model.JobData
 import com.fmonorchio.starter.quartz.monitor.service.QuartzMonitorService
+import com.fmonorchio.starter.quartz.monitor.wrapper.Wrapper
 import org.quartz.JobKey
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+import static com.fmonorchio.starter.quartz.monitor.wrapper.Wrapper.wrap
 import static org.springframework.http.ResponseEntity.ok
 
 @SuppressWarnings('unused')
@@ -17,24 +18,30 @@ class QuartzMonitorController {
     QuartzMonitorService quartzMonitorService
 
     @GetMapping('scheduled-jobs')
-    ResponseEntity<List<JobData>> getJobDetails(@RequestParam(required = false) String group) {
+    ResponseEntity<Wrapper> getJobDetails(@RequestParam(required = false) String group) {
 
+        def data
         if (group) {
-            return ok(quartzMonitorService.getJobDataByGroup(group))
+            data = wrap(quartzMonitorService.getJobDataByGroup(group))
+        } else {
+            data = wrap(quartzMonitorService.getJobData())
         }
-        return ok(quartzMonitorService.getJobData())
+
+        return ok(data)
     }
 
     @GetMapping('scheduled-jobs/groups')
-    ResponseEntity<List<String>> getJobGroups() {
+    ResponseEntity<Wrapper> getJobGroups() {
 
-        return ok(quartzMonitorService.getJobGroups())
+        def data = wrap(quartzMonitorService.getJobGroups())
+        return ok(data)
     }
 
     @GetMapping('scheduled-jobs/{key}')
-    ResponseEntity<JobData> getJobData(@PathVariable JobKey key) {
+    ResponseEntity<Wrapper> getJobData(@PathVariable JobKey key) {
 
-        return ok(quartzMonitorService.getJobData(key))
+        def data = wrap(quartzMonitorService.getJobData(key))
+        return ok(data)
     }
 
     @DeleteMapping('scheduled-jobs/{key}')

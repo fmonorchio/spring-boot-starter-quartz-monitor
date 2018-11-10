@@ -1,10 +1,10 @@
 # IntelliJ
 .idea
 
-# Compiled class file
+# Compiled Class File
 *.class
 
-# Log file
+# Log File
 *.log
 
 # Package Files #
@@ -15,3 +15,21 @@
 *.zip
 *.tar.gz
 *.rar
+
+
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Production
+/build
+
+# Miscellaneous
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

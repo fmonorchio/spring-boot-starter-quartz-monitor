@@ -1,13 +1,13 @@
 package com.fmonorchio.starter.quartz.monitor.controller
 
 import com.fmonorchio.starter.quartz.monitor.service.QuartzMonitorService
-import com.fmonorchio.starter.quartz.monitor.wrapper.Wrapper
+import com.fmonorchio.starter.quartz.monitor.util.wrapper.Wrapper
 import groovy.transform.TupleConstructor
 import org.quartz.JobKey
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-import static com.fmonorchio.starter.quartz.monitor.wrapper.Wrapper.wrap
+import static com.fmonorchio.starter.quartz.monitor.util.wrapper.Wrapper.wrap
 import static org.springframework.http.ResponseEntity.ok
 
 @TupleConstructor
@@ -18,7 +18,7 @@ class QuartzMonitorController {
     QuartzMonitorService quartzMonitorService
 
     @GetMapping('scheduled-jobs')
-    ResponseEntity<Wrapper> getJobDetails(@RequestParam(required = false) String group) {
+    ResponseEntity<com.fmonorchio.starter.quartz.monitor.util.wrapper.Wrapper> getJobDetails(@RequestParam(required = false) String group) {
 
         def data
         if (group) {

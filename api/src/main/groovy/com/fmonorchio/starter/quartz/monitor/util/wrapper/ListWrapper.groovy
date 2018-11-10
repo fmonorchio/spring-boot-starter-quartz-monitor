@@ -1,4 +1,4 @@
-package com.fmonorchio.starter.quartz.monitor.wrapper
+package com.fmonorchio.starter.quartz.monitor.util.wrapper
 
 class ListWrapper<T> extends Wrapper {
 

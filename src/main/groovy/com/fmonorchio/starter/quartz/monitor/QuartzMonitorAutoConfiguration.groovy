@@ -55,18 +55,18 @@ class QuartzMonitorAutoConfiguration {
     }
 
     @Bean
-    InfoAggregator quartzMonitorInfoAggregator() {
-        return new InfoAggregator()
+    InfoAggregator quartzMonitorInfoAggregator(Scheduler scheduler) {
+        return new InfoAggregator(scheduler)
     }
 
     @Bean
-    QuartzMonitorService quartzMonitorService() {
-        return new QuartzMonitorServiceImpl()
+    QuartzMonitorService quartzMonitorService(Scheduler scheduler, InfoAggregator aggregator) {
+        return new QuartzMonitorServiceImpl(scheduler, aggregator)
     }
 
     @Bean
-    QuartzMonitorController quartzMonitorController() {
-        return new QuartzMonitorController()
+    QuartzMonitorController quartzMonitorController(QuartzMonitorService service) {
+        return new QuartzMonitorController(service)
     }
 
 }

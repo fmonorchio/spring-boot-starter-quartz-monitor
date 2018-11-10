@@ -2,19 +2,19 @@ package com.fmonorchio.starter.quartz.monitor.controller
 
 import com.fmonorchio.starter.quartz.monitor.service.QuartzMonitorService
 import com.fmonorchio.starter.quartz.monitor.wrapper.Wrapper
+import groovy.transform.TupleConstructor
 import org.quartz.JobKey
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 import static com.fmonorchio.starter.quartz.monitor.wrapper.Wrapper.wrap
 import static org.springframework.http.ResponseEntity.ok
 
+@TupleConstructor
 @SuppressWarnings('unused')
 @RequestMapping('quartz-monitor')
 class QuartzMonitorController {
 
-    @Autowired
     QuartzMonitorService quartzMonitorService
 
     @GetMapping('scheduled-jobs')

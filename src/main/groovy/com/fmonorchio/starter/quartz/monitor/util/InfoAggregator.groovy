@@ -4,13 +4,13 @@ import com.fmonorchio.starter.quartz.monitor.exception.NotFoundException
 import com.fmonorchio.starter.quartz.monitor.model.JobData
 import com.fmonorchio.starter.quartz.monitor.model.info.JobInfo
 import com.fmonorchio.starter.quartz.monitor.model.info.TriggerInfo
+import groovy.transform.TupleConstructor
 import org.quartz.JobKey
 import org.quartz.Scheduler
-import org.springframework.beans.factory.annotation.Autowired
 
+@TupleConstructor
 class InfoAggregator {
 
-    @Autowired
     Scheduler scheduler
 
     JobData aggregateBy(JobKey key) {

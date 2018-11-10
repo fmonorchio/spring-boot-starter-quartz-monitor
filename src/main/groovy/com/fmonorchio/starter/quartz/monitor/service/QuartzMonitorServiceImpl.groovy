@@ -2,19 +2,18 @@ package com.fmonorchio.starter.quartz.monitor.service
 
 import com.fmonorchio.starter.quartz.monitor.model.JobData
 import com.fmonorchio.starter.quartz.monitor.util.InfoAggregator
+import groovy.transform.TupleConstructor
 import org.quartz.JobKey
 import org.quartz.Scheduler
 import org.quartz.impl.matchers.GroupMatcher
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 
+@TupleConstructor
 class QuartzMonitorServiceImpl implements QuartzMonitorService {
 
-    @Autowired
     Scheduler scheduler
 
-    @Autowired
     InfoAggregator aggregator
 
     @Override

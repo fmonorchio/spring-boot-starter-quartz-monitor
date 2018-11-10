@@ -1,6 +1,15 @@
 apply plugin: 'org.springframework.boot'
+apply plugin: 'com.palantir.docker'
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-quartz'
 }
+
+docker {
+    it.name "fmonorchio/quartz-monitor"
+    tags 'latest'
+    copySpec.from('build/libs')
+}
+
+dockerPush.dependsOn dockerTag
